@@ -235,8 +235,8 @@ async function runMonitorCycle() {
         }
       }
 
-      // Rate limit: wait 2s between searches
-      await new Promise(r => setTimeout(r, 2000));
+      // Rate limit: wait 8s between searches to avoid 429s
+      await new Promise(r => setTimeout(r, 8000));
     }
 
     // Send consolidated alert to Jean if anything found
@@ -253,14 +253,14 @@ async function runMonitorCycle() {
 }
 
 // ─── Schedule ─────────────────────────────────────────────────────────────────
-// Every 30 minutes
-cron.schedule("*/30 * * * *", () => {
+// Every hour (less aggressive on API limits)
+cron.schedule("0 * * * *", () => {
   runMonitorCycle().catch(err => console.error("[Monitor] Cycle error:", err));
 });
 
-// Also run once on startup after 10 seconds
+// Run once on startup after 3 minutes (let rate limits reset)
 setTimeout(() => {
   runMonitorCycle().catch(err => console.error("[Monitor] Startup error:", err));
-}, 10000);
+}, 180000);
 
-console.log("🔍 Wine Monitor Agent running — checking every 30 minutes.");
+console.log("🔍 Wine Monitor Agent running — checking every hour.");
