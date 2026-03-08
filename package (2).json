@@ -1,0 +1,12 @@
+{
+  "name": "jean-wine-monitor",
+  "version": "1.0.0",
+  "description": "Background wine market monitor agent for Jean Le Sommelier",
+  "main": "monitor.js",
+  "scripts": { "start": "node monitor.js" },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.24.0",
+    "node-cron": "^3.0.3"
+  },
+  "engines": { "node": ">=18.0.0" }
+}
